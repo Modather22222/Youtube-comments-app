@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+         
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+     <div id="spinner"></div>
+    <header>
+    <h1>YouTube Comment App</h1>
+    <p class="p">Type Youtube Link id ,Like This one:<br> https://youtube/<span>fpDsw4vBzAg</span></p>
+        <form id="form">
+            <input type="text" id="videoId" placeholder="type youtube video id here" style="color:green">
+            <button type="submit" onclick="api();showSpinner()" style="font-weight:bold">Display Comments</button>
+        </form>
+        </header>
+        <div id="show"></div>
+       
+        
+        <script>
+        
+         // show and hide spinner
+                const spinner = document.getElementById("spinner");
+    
+    function showSpinner() {
+  spinner.classList.add("show");
+}
+
+function hideSpinner(){
+    spinner.classList.remove("show");
+}
+            function api(){
+            
+                $("form").submit(function(event){
+                event.preventDefault()
+            
+                })
+                videoId = $("#videoId").val()
+                console.log(videoId)
+                
+                apiKey = "AIzaSyBJ82gJco3jhHuXhZrqA48ZlHFMbcFtq9g";
+                url = "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&key="+apiKey+"&videoId="+videoId+"&maxResults=100";
+                
+                
+               async function gett(){
+              response = await fetch(url);
+              data = await response.json();
+              
+              show = document.getElementById("show");
+              
+             
+              for (i=0;i<data.items.length;i++){
+              show.innerHTML+=
+              
+              `
+              <div class="div">
+              <div>
+              <img src="${data.items[i].snippet.topLevelComment.snippet.authorProfileImageUrl}">
+              
+              <a href="${data.items[i].snippet.topLevelComment.snippet.authorChannelUrl}"><h3>${data.items[i].snippet.topLevelComment.snippet.authorDisplayName}</h3></a>
+              
+              
+                  </div>
+              
+              <span>${data.items[i].snippet.topLevelComment.snippet.textDisplay}</span>
+              </div>
+              `
+           ;   
+              }
+              hideSpinner()
+              }
+              
+              
+              gett()
+              
+            }
+            
+            
+            
+        </script>
+    
+    </body>
+</html>
